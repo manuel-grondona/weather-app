@@ -6,7 +6,8 @@ import { createGlobalStyle } from "styled-components"
 
 const GlobalStyle = createGlobalStyle`
   :root {
-    box-sizing: border-box
+    box-sizing: border-box;
+    font-size: 10px;
   };
 
   body {
