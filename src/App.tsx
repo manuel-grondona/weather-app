@@ -2,22 +2,23 @@ import { useEffect, useState } from "react"
 import styled from "styled-components"
 import IconButton from "@material-ui/core/IconButton"
 import CircularProgress from "@material-ui/core/CircularProgress"
-import { store } from "./store"
 import { Arrow as RightArrow } from "./icons"
-import { useAppSelector } from "./hooks"
-import { DailyWeatherList } from "./features/daily/DailyWeatherList"
+import { useAppSelector, useAppDispatch } from "./hooks"
+import { DailyWeatherList } from "./features/DailyWeatherList"
 import { fetchWeather } from "./features/weatherSlice"
+import { UnitCheckbox } from "./features/UnitCheckbox"
 
 function App() {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const dispatch = useAppDispatch()
   const dailyWeather = useAppSelector((state) => state.weather.daily.daily)
   const isLoading = useAppSelector((state) => state.weather.loading)
 
   const dailyWeatherLength = dailyWeather.length
 
   useEffect(() => {
-    store.dispatch(fetchWeather())
-  }, [])
+    dispatch(fetchWeather())
+  }, [dispatch])
 
   function handleNext() {
     if (currentIndex < dailyWeatherLength - 3) {
@@ -37,6 +38,7 @@ function App() {
     </LoaderContainer>
   ) : (
     <Container>
+      <UnitCheckbox />
       <ActionsContainer>
         {currentIndex > 0 && (
           <span>
