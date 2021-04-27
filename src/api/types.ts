@@ -18,7 +18,6 @@ interface DayItem {
 
 export interface DailyForecastResponse {
   daily: DailyItem[]
-  weather: WeatherItem[]
 }
 
 interface DailyItem {
@@ -27,9 +26,11 @@ interface DailyItem {
     min: number
     max: number
   }
+  weather: WeatherItem[]
 }
 
-interface WeatherItem {
+export interface WeatherItem {
   id: number
   main: string
+  icon: string
 }
