@@ -1,1 +1,1 @@
-export { PartialCloud } from "./PartialCloud"
+export { Arrow } from "./Arrow"
