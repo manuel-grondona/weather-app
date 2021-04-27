@@ -4,6 +4,7 @@ import { DailyForecastResponse, FiveDaysForecastResponse } from "../api/types"
 
 type StateProps = {
   loading: boolean
+  unit: "celsius" | "fahrenheit"
   hourly: Pick<FiveDaysForecastResponse, "list">
   daily: DailyForecastResponse
 }
@@ -18,6 +19,7 @@ export const fetchWeather = createAsyncThunk("fetchWeather", async () => {
 
 const initialState: StateProps = {
   loading: false,
+  unit: "celsius",
   hourly: {
     list: [],
   },
@@ -29,7 +31,11 @@ const initialState: StateProps = {
 const weatherSlice = createSlice({
   name: "weather",
   initialState,
-  reducers: {},
+  reducers: {
+    changeUnit(state, action) {
+      state.unit = action.payload
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(fetchWeather.pending, (state, action) => {
       state.loading = true
@@ -45,5 +51,7 @@ const weatherSlice = createSlice({
     })
   },
 })
+
+export const { changeUnit } = weatherSlice.actions
 
 export default weatherSlice.reducer
