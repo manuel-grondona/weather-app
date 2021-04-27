@@ -1,8 +1,13 @@
 import { FiveDaysForecastResponse, DailyForecastResponse } from "./types"
 
-export async function fetchDailyForecast() {
+interface DailyForecastRequest {
+  lat: number
+  lon: number
+}
+
+export async function fetchDailyForecast({ lat, lon }: DailyForecastRequest) {
   const response = await fetch(
-    "https://api.openweathermap.org/data/2.5/onecall?lat=-34.6132&lon=-58.3772&appid=75f972b80e26f14fe6c920aa6a85ad57&exclude=current,minutely,hourly,alerts&units=metric"
+    `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&appid=75f972b80e26f14fe6c920aa6a85ad57&exclude=current,minutely,hourly,alerts&units=metric`
   )
 
   const data: DailyForecastResponse = await response.json()
