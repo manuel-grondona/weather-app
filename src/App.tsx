@@ -71,6 +71,7 @@ const Container = styled.div`
   height: 100vh;
   width: 72rem;
   margin: auto;
+  padding: 2rem 0;
 `
 
 const ActionsContainer = styled.div`

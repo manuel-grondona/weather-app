@@ -5,7 +5,7 @@ import styled from "styled-components"
 import { WeatherItem } from "../../api/types"
 import { days, months } from "../../constants"
 import { useAppSelector } from "../../hooks"
-import { celsiusToFahrenheit } from "../../utils"
+import { fahrenheitToCelsius } from "../../utils"
 
 interface WeatherCardProps {
   date: number
@@ -19,7 +19,7 @@ interface WeatherCardProps {
 export function WeatherCard({ temp, date, weather }: WeatherCardProps) {
   const unit = useAppSelector((state) => state.weather.unit)
 
-  const isCelsius = unit === "celsius"
+  const isFahrenheit = unit === "fahrenheit"
 
   const dateObj = new Date(date * 1000)
   const year = dateObj.getFullYear()
@@ -29,10 +29,14 @@ export function WeatherCard({ temp, date, weather }: WeatherCardProps) {
   const dayIndex = dateObj.getDay()
   const day = days[dayIndex]
 
-  const max = Math.round(isCelsius ? temp.max : celsiusToFahrenheit(temp.max))
-  const min = Math.round(isCelsius ? temp.min : celsiusToFahrenheit(temp.min))
+  const max = Math.round(
+    isFahrenheit ? temp.max : fahrenheitToCelsius(temp.max)
+  )
+  const min = Math.round(
+    isFahrenheit ? temp.min : fahrenheitToCelsius(temp.min)
+  )
 
-  const unitSymbol = isCelsius ? "°C" : "°F"
+  const unitSymbol = isFahrenheit ? "°F" : "°C"
 
   return (
     <CardContainer>

@@ -19,7 +19,7 @@ export const fetchWeather = createAsyncThunk("fetchWeather", async () => {
 
 const initialState: StateProps = {
   loading: false,
-  unit: "celsius",
+  unit: "fahrenheit",
   hourly: {
     list: [],
   },
