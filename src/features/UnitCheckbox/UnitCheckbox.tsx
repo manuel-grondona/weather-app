@@ -1,10 +1,16 @@
 import { useState } from "react"
+import styled from "styled-components"
+import Radio from "@material-ui/core/Radio"
+import RadioGroup from "@material-ui/core/RadioGroup"
+import FormControlLabel from "@material-ui/core/FormControlLabel"
+import FormControl from "@material-ui/core/FormControl"
+import Typography from "@material-ui/core/Typography"
 import { useAppDispatch } from "../../hooks"
 import { changeUnit } from "../weatherSlice"
 
 export function UnitCheckbox() {
   const dispatch = useAppDispatch()
-  const [selectedOption, setSelectedOption] = useState("celsius")
+  const [selectedOption, setSelectedOption] = useState("fahrenheit")
 
   function handleOptionChange(
     e: import("react").ChangeEvent<HTMLInputElement>
@@ -14,23 +20,30 @@ export function UnitCheckbox() {
   }
 
   return (
-    <>
-      <input
-        type="radio"
-        name="unit"
-        value="celsius"
-        checked={selectedOption === "celsius"}
-        onChange={(e) => handleOptionChange(e)}
-      />
-      <label htmlFor="celsius">Celsius</label>
-      <input
-        type="radio"
-        name="unit"
-        value="fahrenheit"
-        checked={selectedOption === "fahrenheit"}
-        onChange={(e) => handleOptionChange(e)}
-      />
-      <label htmlFor="fahrenheit">Fahrenheit</label>
-    </>
+    <Container>
+      <FormControl component="fieldset">
+        <RadioGroup
+          row={true}
+          name="unit"
+          value={selectedOption}
+          onChange={(e) => handleOptionChange(e)}
+        >
+          <FormControlLabel
+            value="celsius"
+            control={<Radio color="primary" />}
+            label={<Typography variant="h6">Celsius</Typography>}
+          />
+          <FormControlLabel
+            value="fahrenheit"
+            control={<Radio color="primary" />}
+            label={<Typography variant="h6">Fahrenheit</Typography>}
+          />
+        </RadioGroup>
+      </FormControl>
+    </Container>
   )
 }
+
+const Container = styled.div`
+  text-align: center;
+`
