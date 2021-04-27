@@ -1,5 +1,5 @@
-import { WeatherCard } from "../../../components/WeatherCard"
-import { useAppSelector } from "../../../hooks"
+import { WeatherCard } from "../../components/WeatherCard"
+import { useAppSelector } from "../../hooks"
 import styled from "styled-components"
 
 interface DailyWeatherListProps {
