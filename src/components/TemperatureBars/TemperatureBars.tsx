@@ -1,4 +1,4 @@
-import { useRef, useEffect, Fragment } from "react"
+import { Fragment } from "react"
 import * as d3 from "d3"
 import { Rect } from "./Rect"
 import { XAxis } from "./XAxis"
@@ -28,25 +28,16 @@ export function TemperatureBars({
   left,
   right,
 }: TemperatureBarsProps) {
-  const weatherData = useRef(data)
-  const weatherCache = useRef(data)
-
-  weatherData.current = [...data]
-
-  useEffect(() => {
-    weatherCache.current = weatherData.current
-  })
-
   const x = d3
     .scaleBand()
     .range([0, width - left - right])
-    .domain(weatherData.current.map((d) => d.hour.toString())) // TODO remove toString()
-    .padding(0.1)
+    .domain(data.map((d) => d.hour.toString())) // TODO remove toString()
+    .padding(0.4)
 
   const y = d3
     .scaleLinear()
     .range([height - top - bottom, 0])
-    .domain([0, d3.max(weatherData.current, (d) => d.value) as number])
+    .domain([0, d3.max(data, (d) => d.value) as number])
 
   return (
     <Fragment>
@@ -55,10 +46,7 @@ export function TemperatureBars({
         <g transform={`translate(${left}, ${top})`}>
           {data.map((d, i) => (
             <Rect
-              index={i}
               data={d}
-              prev={weatherCache.current}
-              next={weatherData.current}
               x={x}
               y={y}
               height={height}

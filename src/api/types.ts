@@ -8,7 +8,7 @@ export interface FiveDaysForecastResponse {
   }
 }
 
-interface DayItem {
+export interface DayItem {
   dt: number
   dt_text: string
   main: {
