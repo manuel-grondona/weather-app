@@ -13,7 +13,11 @@ export function DailyWeatherList({ currentIndex }: DailyWeatherListProps) {
     <Container>
       <ContentWrapper>
         <Content
-          style={{ transform: `translateX(-${currentIndex * (100 / 3)}%)` }}
+          style={{
+            transform: `translateX(-${
+              currentIndex > 2 ? (currentIndex - 2) * (100 / 3) : 0
+            }%)`,
+          }}
         >
           {dailyWeather.daily.map((day) => (
             <CardContainer key={day.dt.toString()}>
