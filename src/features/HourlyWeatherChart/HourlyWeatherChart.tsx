@@ -36,7 +36,7 @@ export function HourlyWeatherChart({ hourlyWeather }: HourlyWeatherProps) {
           right={0}
         />
       ) : (
-        <p>No information</p>
+        <WarningText>No information for selected day</WarningText>
       )}
     </Container>
   )
@@ -45,4 +45,7 @@ export function HourlyWeatherChart({ hourlyWeather }: HourlyWeatherProps) {
 const Container = styled.div`
   padding: 4rem;
   text-align: center;
+`
+const WarningText = styled.p`
+  font-size: 1.6rem;
 `
