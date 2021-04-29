@@ -7,12 +7,16 @@ import { useAppSelector, useAppDispatch } from "./hooks"
 import { DailyWeatherList } from "./features/DailyWeatherList"
 import { fetchWeather } from "./features/weatherSlice"
 import { UnitCheckbox } from "./features/UnitCheckbox"
+import { HourlyWeatherChart } from "./features/HourlyWeatherChart"
 
 function App() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const dispatch = useAppDispatch()
   const dailyWeather = useAppSelector((state) => state.weather.daily.daily)
   const isLoading = useAppSelector((state) => state.weather.loading)
+  const hourlyWeather = useAppSelector(
+    (state) => state.weather.selectedDayHours
+  )
 
   const dailyWeatherLength = dailyWeather.length
 
@@ -56,6 +60,7 @@ function App() {
         )}
       </ActionsContainer>
       <DailyWeatherList currentIndex={currentIndex} />
+      <HourlyWeatherChart hourlyWeather={hourlyWeather} />
     </Container>
   )
 }
