@@ -46,6 +46,7 @@ export function TemperatureBars({
         <g transform={`translate(${left}, ${top})`}>
           {data.map((d, i) => (
             <Rect
+              key={d.hour}
               data={d}
               x={x}
               y={y}

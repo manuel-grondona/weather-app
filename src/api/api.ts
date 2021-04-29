@@ -12,7 +12,6 @@ export async function fetchDailyForecast({ lat, lon }: DailyForecastRequest) {
 
   const data: DailyForecastResponse = await response.json()
 
-  console.log("Daily", data)
   return data
 }
 
@@ -22,8 +21,6 @@ export async function fetchFiveDaysForecast() {
   )
 
   const data: FiveDaysForecastResponse = await response.json()
-
-  console.log("5 days", data)
 
   return data
 }
