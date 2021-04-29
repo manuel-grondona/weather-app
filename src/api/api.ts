@@ -19,7 +19,7 @@ export async function fetchDailyForecast({ lat, lon }: DailyForecastRequest) {
 
 export async function fetchFiveDaysForecast() {
   const response = await fetch(
-    `http://api.openweathermap.org/data/2.5/forecast?q=buenos+aires,ar&APPID=${APPID}&cnt=40&units=imperial`
+    `https://api.openweathermap.org/data/2.5/forecast?q=buenos+aires,ar&APPID=${APPID}&cnt=40&units=imperial`
   )
 
   const data: FiveDaysForecastResponse = await response.json()
