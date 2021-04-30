@@ -8,6 +8,7 @@ import { days, months } from "../../constants"
 import { useAppSelector, useAppDispatch } from "../../hooks"
 import { selectDay } from "../../features/weatherSlice"
 import { fahrenheitToCelsius } from "../../utils"
+import { mediaQuery } from "../../mediaQuery"
 
 interface WeatherCardProps {
   date: number
@@ -79,7 +80,12 @@ interface CardContainerProps {
 const CardContainer = styled(Card)<CardContainerProps>`
   width: 14rem;
   text-align: center;
-  background-color: ${(props) => (props.selected ? "#f8f9fa" : null)}!important;
+  margin: auto;
+  background-color: ${(props) => (props.selected ? "#f8f9fa!important" : null)};
+
+  ${mediaQuery.desktop} {
+    margin: inherit;
+  }
 `
 
 const CardContentContainer = styled(CardContent)`

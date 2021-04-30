@@ -2,6 +2,7 @@ import { Fragment } from "react"
 import * as d3 from "d3"
 import { Rect } from "./Rect"
 import { XAxis } from "./XAxis"
+import { useMediaQuery } from "../../mediaQuery"
 
 export interface TemperatureData {
   index: number
@@ -28,11 +29,12 @@ export function TemperatureBars({
   left,
   right,
 }: TemperatureBarsProps) {
+  const { isMobile } = useMediaQuery()
   const x = d3
     .scaleBand()
     .range([0, width - left - right])
     .domain(data.map((d) => d.hour.toString())) // TODO remove toString()
-    .padding(0.4)
+    .padding(isMobile ? 0.2 : 0.4)
 
   const y = d3
     .scaleLinear()
