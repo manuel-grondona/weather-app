@@ -81,7 +81,8 @@ const CardContainer = styled(Card)<CardContainerProps>`
   width: 14rem;
   text-align: center;
   margin: auto;
-  background-color: ${(props) => (props.selected ? "#f8f9fa!important" : null)};
+  border: ${(props) =>
+    props.selected ? "1px solid #ffc107 !important" : null};
 
   ${mediaQuery.desktop} {
     margin: inherit;

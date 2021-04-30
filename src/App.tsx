@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react"
+import { Fragment, useEffect, useState } from "react"
 import styled from "styled-components"
 import IconButton from "@material-ui/core/IconButton"
 import CircularProgress from "@material-ui/core/CircularProgress"
 import Card from "@material-ui/core/Card"
+import Typography from "@material-ui/core/Typography"
 import { Arrow as RightArrow } from "./icons"
 import { useAppSelector, useAppDispatch } from "./hooks"
 import { DailyWeatherList } from "./features/DailyWeatherList"
@@ -11,11 +12,46 @@ import { UnitCheckbox } from "./features/UnitCheckbox"
 import { HourlyWeatherChart } from "./features/HourlyWeatherChart"
 import { mediaQuery, useMediaQuery } from "./mediaQuery"
 
-function App() {
+export function App() {
+  const isLoading = useAppSelector((state) => state.weather.loading)
+  const dispatch = useAppDispatch()
+
+  const { isMobile } = useMediaQuery()
+
+  useEffect(() => {
+    dispatch(fetchWeather())
+  }, [dispatch])
+
+  if (isLoading) {
+    return (
+      <LoaderContainer>
+        <CircularProgress />
+      </LoaderContainer>
+    )
+  }
+
+  return (
+    <Container>
+      <TitleContainer>
+        <Typography align="center" variant={isMobile ? "h6" : "h4"}>
+          Buenos Aires, Argentina
+        </Typography>
+      </TitleContainer>
+      {isMobile ? (
+        <AppContent />
+      ) : (
+        <StyledCard>
+          <AppContent />
+        </StyledCard>
+      )}
+    </Container>
+  )
+}
+
+function AppContent() {
   const [currentIndex, setCurrentIndex] = useState(1)
   const dispatch = useAppDispatch()
   const dailyWeather = useAppSelector((state) => state.weather.daily.daily)
-  const isLoading = useAppSelector((state) => state.weather.loading)
   const selectedDay = useAppSelector((state) => state.weather.selectedDayDate)
   const hourlyWeather = useAppSelector(
     (state) => state.weather.selectedDayHours
@@ -24,10 +60,6 @@ function App() {
   const { isMobile } = useMediaQuery()
 
   const dailyWeatherLength = dailyWeather.length
-
-  useEffect(() => {
-    dispatch(fetchWeather())
-  }, [dispatch])
 
   useEffect(() => {
     const day = dailyWeather.findIndex((day) => {
@@ -47,36 +79,30 @@ function App() {
     setCurrentIndex((prevState) => prevState - 1)
   }
 
-  return isLoading ? (
-    <LoaderContainer>
-      <CircularProgress />
-    </LoaderContainer>
-  ) : (
-    <Container>
-      <StyledCard>
-        <UnitCheckbox />
-        {!isMobile && (
-          <ActionsContainer>
-            {currentIndex > 0 && (
-              <span>
-                <IconButton onClick={handlePrev}>
-                  <LeftArrow />
-                </IconButton>
-              </span>
-            )}
-            {currentIndex < dailyWeatherLength - 1 && (
-              <RightButtonContainer>
-                <IconButton onClick={handleNext}>
-                  <RightArrow />
-                </IconButton>
-              </RightButtonContainer>
-            )}
-          </ActionsContainer>
-        )}
-        <DailyWeatherList currentIndex={currentIndex} />
-        <HourlyWeatherChart hourlyWeather={hourlyWeather} />
-      </StyledCard>
-    </Container>
+  return (
+    <Fragment>
+      <UnitCheckbox />
+      {!isMobile && (
+        <ActionsContainer>
+          {currentIndex > 0 && (
+            <span>
+              <IconButton onClick={handlePrev}>
+                <LeftArrow />
+              </IconButton>
+            </span>
+          )}
+          {currentIndex < dailyWeatherLength - 1 && (
+            <RightButtonContainer>
+              <IconButton onClick={handleNext}>
+                <RightArrow />
+              </IconButton>
+            </RightButtonContainer>
+          )}
+        </ActionsContainer>
+      )}
+      <DailyWeatherList currentIndex={currentIndex} />
+      <HourlyWeatherChart hourlyWeather={hourlyWeather} />
+    </Fragment>
   )
 }
 
@@ -89,12 +115,22 @@ const LoaderContainer = styled.div`
 
 const Container = styled.div`
   height: 100vh;
+  display: flex;
+  flex-direction: column;
 
   ${mediaQuery.desktop} {
     width: 72rem;
-    display: flex;
+    height: 100%;
+    display: block;
     align-items: center;
     margin: auto;
+  }
+`
+const TitleContainer = styled.div`
+  margin: 1rem 0;
+
+  ${mediaQuery.desktop} {
+    margin: 2rem 0;
   }
 `
 

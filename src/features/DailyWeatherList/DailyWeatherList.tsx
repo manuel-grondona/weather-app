@@ -70,7 +70,7 @@ const Container = styled.div``
 
 const ContentWrapper = styled.div`
   overflow-y: hidden;
-  padding: 2rem;
+  padding: 4rem 0;
   width: 100%;
   height: 100%;
   scroll-snap-type: x mandatory;
@@ -81,6 +81,7 @@ const ContentWrapper = styled.div`
   }
 
   ${mediaQuery.desktop} {
+    padding: 2rem;
     overflow: hidden;
   }
 `
@@ -92,7 +93,7 @@ interface ContentProps {
 
 const Content = styled.div<ContentProps>`
   display: grid;
-  grid-auto-columns: ${(props) => `calc(${props.screenWidth}px - 12rem)`};
+  grid-auto-columns: ${(props) => `calc(${props.screenWidth}px)`};
   grid-auto-flow: column;
   scroll-snap-align: center;
 
@@ -100,9 +101,7 @@ const Content = styled.div<ContentProps>`
     display: flex;
     transition: all 250ms linear;
     transform: ${(props) =>
-      `translateX(-${
-        props.currentIndex > 2 ? (props.currentIndex - 2) * (100 / 3) : 0
-      }%)`};
+      `translateX(-${Math.floor(props.currentIndex / 3) * 100}%)`};
 
     > * {
       flex-shrink: 0;
