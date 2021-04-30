@@ -9,6 +9,7 @@ import { DailyWeatherList } from "./features/DailyWeatherList"
 import { fetchWeather, selectDay } from "./features/weatherSlice"
 import { UnitCheckbox } from "./features/UnitCheckbox"
 import { HourlyWeatherChart } from "./features/HourlyWeatherChart"
+import { mediaQuery, useMediaQuery } from "./mediaQuery"
 
 function App() {
   const [currentIndex, setCurrentIndex] = useState(1)
@@ -19,6 +20,8 @@ function App() {
   const hourlyWeather = useAppSelector(
     (state) => state.weather.selectedDayHours
   )
+
+  const { isMobile } = useMediaQuery()
 
   const dailyWeatherLength = dailyWeather.length
 
@@ -52,22 +55,24 @@ function App() {
     <Container>
       <StyledCard>
         <UnitCheckbox />
-        <ActionsContainer>
-          {currentIndex > 0 && (
-            <span>
-              <IconButton onClick={handlePrev}>
-                <LeftArrow />
-              </IconButton>
-            </span>
-          )}
-          {currentIndex < dailyWeatherLength - 1 && (
-            <RightButtonContainer>
-              <IconButton onClick={handleNext}>
-                <RightArrow />
-              </IconButton>
-            </RightButtonContainer>
-          )}
-        </ActionsContainer>
+        {!isMobile && (
+          <ActionsContainer>
+            {currentIndex > 0 && (
+              <span>
+                <IconButton onClick={handlePrev}>
+                  <LeftArrow />
+                </IconButton>
+              </span>
+            )}
+            {currentIndex < dailyWeatherLength - 1 && (
+              <RightButtonContainer>
+                <IconButton onClick={handleNext}>
+                  <RightArrow />
+                </IconButton>
+              </RightButtonContainer>
+            )}
+          </ActionsContainer>
+        )}
         <DailyWeatherList currentIndex={currentIndex} />
         <HourlyWeatherChart hourlyWeather={hourlyWeather} />
       </StyledCard>
@@ -84,13 +89,25 @@ const LoaderContainer = styled.div`
 
 const Container = styled.div`
   height: 100vh;
-  width: 72rem;
-  margin: auto;
-  padding: 2rem 0;
+
+  ${mediaQuery.desktop} {
+    width: 72rem;
+    display: flex;
+    align-items: center;
+    margin: auto;
+  }
 `
 
 const StyledCard = styled(Card)`
   padding: 4rem;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
+  ${mediaQuery.desktop} {
+    display: block;
+    height: 68rem;
+  }
 `
 
 const ActionsContainer = styled.div`
